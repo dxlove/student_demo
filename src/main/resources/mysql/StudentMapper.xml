@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.studentdemo.mapper.StudentMapper">
+
+    <select id="queryAllGrade" resultType="com.demo.studentdemo.vo.StudentGradeVO">
+        SELECT
+            s.student_id,
+            s.name AS student_name,
+            s.dept_name AS department,
+            c.course_code,
+            c.course_name,
+            c.credit,
+            c.course_type,
+            g.semester,
+            g.score,
+            CASE
+                WHEN g.score >= 90 THEN 'A'
+                WHEN g.score >= 80 THEN 'B'
+                WHEN g.score >= 70 THEN 'C'
+                WHEN g.score >= 60 THEN 'D'
+                ELSE 'F'
+                END AS grade_letter
+        FROM t_grade g
+                 INNER JOIN t_student s ON g.student_id = s.student_id
+                 INNER JOIN t_course c ON g.course_id = c.id
+         where 1 = 1
+        <if test="req.studentId != null and req.studentId != ''">
+            AND g.student_id = #{req.studentId}
+        </if>
+        <if test="req.courseName != null and req.courseName != ''">
+            AND c.course_name LIKE CONCAT('%', #{req.courseName}, '%')
+        </if>
+        ORDER BY g.semester DESC, s.student_id, c.course_code
+    </select>
+</mapper>
