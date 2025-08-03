@@ -8,13 +8,14 @@ import java.nio.file.Paths;
 public class CodeGenerator {
     public static void main(String[] args) {
         //支持多个表名，使用,隔开
-        String tableName = "t_student";
+        String tableName = "t_course";
 
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/student_demo", "root", "dxlove")
                 .globalConfig(builder -> builder
                         .author("admin")
                         .outputDir(Paths.get(System.getProperty("user.dir")) + "/src/main/java")
                         //.enableSwagger() // 开启 swagger 模式
+                        .enableSpringdoc()
                         .commentDate("yyyy-MM-dd")
                 )
                 .packageConfig(builder -> builder
