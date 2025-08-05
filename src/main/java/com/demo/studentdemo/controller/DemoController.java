@@ -2,6 +2,7 @@ package com.demo.studentdemo.controller;
 
 import com.demo.studentdemo.entity.Student;
 import com.demo.studentdemo.service.DemoService;
+import com.demo.studentdemo.service.DemoTaskService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DemoController {
     @Autowired
     private DemoService demoService;
+    @Autowired
+    private DemoTaskService demoTaskService;
 
     @SneakyThrows
     @GetMapping("/runExample")
@@ -27,6 +30,14 @@ public class DemoController {
     @GetMapping("/runExampleAsync")
     public ResponseEntity<String> runExampleAsync(){
         demoService.runExampleAsync();
+        return ResponseEntity.ok("OK");
+    }
+
+
+    @SneakyThrows
+    @GetMapping("/runTask")
+    public ResponseEntity<String> runTask(){
+        demoTaskService.runDemo();
         return ResponseEntity.ok("OK");
     }
 }
